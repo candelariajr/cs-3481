@@ -15,10 +15,11 @@ int main(int argc, char *argv[]){
 	ifstream inf(argv[1]);
 
 	if(!inf){
-		cout << argv[1] << "  Couldn't be open for reading";
+		cout << argv[1] << "  Couldn't be open for reading" << "\n";
 		return 1;
 	}else{
 		while(inf){
+			
 			string strInput;
 			getline(inf, strInput);
 			if(strInput.size() > 0){
@@ -49,6 +50,10 @@ int main(int argc, char *argv[]){
 string processString(string opString){
 	//TODO: Investigate optimization of hex vs. string use here
 	stringstream str;
+	stringstream rA;
+	stringstream rb;
+	stringstream f;
+	stringstream mov;
 	string retString;
 	str << opString.substr(0,1);
 	int value;
@@ -67,7 +72,17 @@ string processString(string opString){
 				break;
 			case 0x2 :
 				//ret
-				retString = "RRMOVQ/CMOVXX";
+				mov << opString.substr(1,1);
+				mov >> hex >> value;
+				if(value == 0)
+				{
+					retString = "RRMOVQ";
+				}
+				else
+				{
+					retString = "CMOVXX";
+				}
+				
 				break;
 			case 0x3 :
 				//halt
@@ -115,5 +130,5 @@ string processString(string opString){
 }
 
 string getRegisterName(string regHex){
-	
+    return "";	
 }
